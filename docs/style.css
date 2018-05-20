@@ -51,3 +51,57 @@ header#page_top > small {
     margin-top: -20px;
     width: 30%;
 }
+
+article {}
+
+footer.clear {
+    color: #fff;
+    background: #333;
+    padding: 15px;
+}
+
+.clear:after, .column-row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.footer-left {
+    float: left;
+}
+
+footer ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+footer a {
+    color: #ccc;
+}
+
+footer li {
+    float: left;
+}
+
+.footer-left li:last-child:before {
+    content: "•";
+    display: inline-block;
+    margin: 0 5px;
+    vertical-align: middle;
+}
+
+.footer-right {
+    float: right;
+}
+
+footer ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: #039;
+    text-decoration: none;
+}
