@@ -14,5 +14,18 @@ header#page_top {
     min-height:  45px;
     line-height: 45px;
     color: #77b3ca;
-    font-size: 24px;
+    font-size: 17px;
+}
+
+right#buttons {
+    float: right;
+}
+
+right#buttons > a {
+    color:  white;
+    text-decoration: none;
+    background: #4a4a4a;
+    padding: 5px 10px;
+    border-radius:  3px;
+    font-size: 14px;
 }
