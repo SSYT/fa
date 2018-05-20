@@ -29,3 +29,12 @@ right#buttons > a {
     border-radius:  3px;
     font-size: 14px;
 }
+
+article {
+    width:  85%;
+    margin: 0 auto;
+}
+
+section {
+    width: 50%;
+}
