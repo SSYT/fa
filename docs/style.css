@@ -9,16 +9,18 @@ body#fa {
 }
 
 header#page_top {
-    background:  white;
+    background: white;
     padding: 5px 20px;
     min-height:  45px;
     line-height: 45px;
-    color: #77b3ca;
+    color: #464646;
     font-size: 17px;
 }
 
 right#buttons {
     float: right;
+    display:  block;
+    margin-top: -4.5%;
 }
 
 right#buttons > a {
@@ -27,7 +29,7 @@ right#buttons > a {
     background: #4a4a4a;
     padding: 5px 10px;
     border-radius:  3px;
-    font-size: 14px;
+    font-size: 17px;
 }
 
 article {
@@ -37,4 +39,15 @@ article {
 
 section {
     width: 50%;
+}
+
+header#page_top > b {
+    color: #77b3ca;
+}
+
+header#page_top > small {
+    clear: both;
+    display: block;
+    margin-top: -20px;
+    width: 30%;
 }
