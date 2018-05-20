@@ -4,8 +4,10 @@ body#fa {
     background: #77b3ca;
     color:  white;
     font-size: 14px;
-    display:  block;
     font-family:  "Arial", sans-serif;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
 header#page_top {
@@ -14,7 +16,7 @@ header#page_top {
     min-height:  45px;
     line-height: 45px;
     color: #464646;
-    font-size: 17px;
+    font-size: 20px;
 }
 
 right#buttons {
@@ -50,9 +52,12 @@ header#page_top > small {
     display: block;
     margin-top: -20px;
     width: 30%;
+    font-size: 13px;
 }
 
-article {}
+article {
+    min-height: 550px;
+}
 
 footer.clear {
     color: #fff;
