@@ -1,0 +1,101 @@
+<script>
+// ReadChatboxMessages(url, [, params]);
+function ReadChatboxMessages(url) {
+	if(url) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		        var result = JSON.parse($('.post .postbody .content', this.responseText)[0].innerText);
+  			document.getElementById('shouts').innerHTML = "";
+		        for(var key in result['fa_chatbox'].messages) {
+		        	var keys = result['fa_chatbox'].messages[key];
+  				document.getElementById('shouts').innerHTML += '<li id="chat_'+ keys.id +'"><span><img src="'+ keys.avatar +'" width="35"/>'+ keys.user +'</span>: '+ keys.msg +' <right>[Date: '+ keys.date +']</right></li>';
+		        }
+		    }
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+	}
+};
+
+// PushChatboxMessages(url, [, params]);
+function PushChatboxMessages(url, params) {
+	if(url) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		        var result = JSON.parse($('#textarea_content textarea[name="message"]', this.responseText)[0].innerText);
+		        var auth1 = $('.submit-buttons input[name="auth[]"]:eq(0)', this.responseText).val();
+		        var auth2 = $('.submit-buttons input[name="auth[]"]:eq(1)', this.responseText).val();
+  			
+  
+  			if(document.getElementById('msg_zone').value  === "") return;
+  			var datw = new Date();
+		        result.fa_chatbox.messages.push({
+		        	"id": parseInt(result.fa_chatbox.messages.length) + 1,
+		        	"user": _userdata.username,
+		        	"avatar": $(_userdata.avatar).attr('src'),
+		        	"date": datw.getHours()+":"+datw.getMinutes()+":"+datw.getSeconds(),
+		        	"msg": (params) ? params : ""
+		        });
+  			
+  			document.getElementById('shouts').innerHTML = "";
+		        for(var key in result['fa_chatbox'].messages) {
+		        	var keys = result['fa_chatbox'].messages[key];
+  				document.getElementById('shouts').innerHTML += '<li class="temp" id="chat_'+ keys.id +'"><span><img src="'+ keys.avatar +'" width="35"/>'+ keys.user +'</span>: '+ keys.msg +' <right>[Date: '+ keys.date +']</right></li>';
+		        }
+  			document.getElementById('msg_zone').value = "";
+  
+                        $.post('/post?p=19&mode=editpost', {
+                                subject: ('Chatbox Staff'),
+                                message: (JSON.stringify(result)),
+                                'auth[]': auth1,
+                                'auth[]': auth2,
+                                mode: 'editpost',
+                                p: 19,
+                                lt: 19,
+                                post: 1
+                        });
+		    }
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+	}
+};
+
+function ResetChatboxMessages(url) {
+	if(url) {
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		        var result = JSON.parse($('#textarea_content textarea[name="message"]', this.responseText)[0].innerText);
+		        var auth1 = $('.submit-buttons input[name="auth[]"]:eq(0)', this.responseText).val();
+		        var auth2 = $('.submit-buttons input[name="auth[]"]:eq(1)', this.responseText).val();
+		        result.fa_chatbox.messages = [];
+
+                        $.post('/post?p=19&mode=editpost', {
+                                subject: ('Chatbox Staff'),
+                                message: (JSON.stringify(result)),
+                                'auth[]': auth1,
+                                'auth[]': auth2,
+                                mode: 'editpost',
+                                p: 19,
+                                lt: 19,
+                                post: 1
+                        });
+		    }
+		};
+		xmlhttp.open("GET", url, true);
+		xmlhttp.send();
+	}
+};
+
+setInterval(function(){
+	ReadChatboxMessages('/t8-chatbox-staff#19');
+}, 5000);
+</script>
+<div id="fa_chatbox">
+  <ul id="shouts">Loading shouts...</ul>
+  <div id="buttons"><input type="text" id="msg_zone" name="message" /> <input type="submit" value="Trimite" onclick="PushChatboxMessages('/post?p=19&mode=editpost', document.getElementById('msg_zone').value); return false;" />
+    <input type="submit" value="Reset Messages" onclick="ResetChatboxMessages('/post?p=19&mode=editpost'); return false;" /></div>
+</div>
