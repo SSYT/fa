@@ -1,0 +1,76 @@
+div#fa_chatbox {
+    background: #eee;
+    border: 1px solid;
+    padding: 5px 0;
+    width: 50%;
+    display: block;
+}
+
+div#fa_chatbox::before {
+    background: #000;
+    color: #fff;
+    content: "FG Staff Chatbox";
+    display: block;
+    font-size: 20px;
+    height: 25px;
+    line-height: 1em;
+    margin: -18px 0 0px -1px;
+    width: 100%;
+    padding: 5px 0px 5px 2px;
+    border-radius: 2px 2px 0 0;
+    text-indent: 20px;
+}
+
+ul#shouts li {
+    display: block;
+    background: #fff;
+    border-bottom: 1px solid #0000002e;
+    padding: 0 10px;
+    line-height: 3em;
+    min-height: 30px
+}
+
+ul#shouts {
+    width:  100%;
+    display: block;
+    margin: 0 -10px;
+    padding: 0 10px;
+}
+
+ul#shouts li span img {
+    clear: right;
+    float: left;
+    width: 20px;
+    height: 20px;
+    display: block;
+    margin-top: 5px;
+    margin-right: 5px;
+    border-radius: 5px;
+}
+
+ul#shouts right {
+    float: right;
+    width: 13%;
+    text-align: left;
+}
+
+div#buttons {
+    display: block;
+    line-height: 3em;
+    padding: 0 0px 0px 10px;
+    overflow: hidden;
+}
+
+input#msg_zone {
+    line-height: 2em;
+    width: 60%;
+    margin-right: 16%;
+}
+
+div#buttons input[type="submit"] {
+    background: #368ad2;
+    color:  white;
+    padding:  5px;
+    border: 0;
+    margin-left: 0;
+}
