@@ -154,7 +154,7 @@ fa_chatbox.prototype.send = function() {
     var self = this, date = new Date();
     if(document.getElementById('msg_zone').value == "") return;
 
-    this.read.messages.push({
+    self.read.messages.push({
         id: _userdata.user_id,
         user_color: (self.getUser(self.read.users, _userdata.username) == 1) ? '#E60C42' : '#000',
         admin: (self.getUser(self.read.users, _userdata.username) == 1) ? 1 : 0,
