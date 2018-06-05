@@ -4,6 +4,7 @@ function fa_chatbox(method, data, callback) {
     this.callback = callback;
     this.read = {};
     this.params = {};
+    this.users = [];
 
     switch(method) {
         case "read":
@@ -131,7 +132,26 @@ fa_chatbox.prototype.readData = function() {
     fa_chatbox("read", {}, function(response) {
         if(!/{"users":.+}]}/im.test(response)) return;
         content = /{"users":.+}]}/im.exec(response);
-        if(content !== null) self.getMessages(content);
+        if(content !== null) {
+            
+            if(self.users) {
+                self.users = [];
+
+                $.each(JSON.parse(content).users, function(i, value) {
+                    self.users[value.id] = value;
+
+					var username = 	"<span style='color:"+ value.color +"'>"+
+						(value.admin ? "@ " : "") +
+						"<span class='chatbox-username chatbox-user-username' data-user='"+ value.id +"'>"+ value.username +"</span>"+
+					"</span>";
+
+					var list = value.status ? '.online-users' : '.away-users';
+					$(list).append('<li>' + username + '</li>');
+                });
+            }
+
+            self.getMessages(content);
+        }
     });
 };
 
