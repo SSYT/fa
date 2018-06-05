@@ -189,8 +189,8 @@ fa_chatbox.prototype.send = function() {
 };
 
 if(typeof faChat == "undefined") {
+    var faChat = new fa_chatbox();
     $(function() {
-        var faChat = new fa_chatbox();
         faChat.init();
         console.log('try login');
         faChat.autologin(_userdata.username);
