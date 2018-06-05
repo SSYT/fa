@@ -1,5 +1,8 @@
+
 function fa_chatbox(method, data, callback) {
     this.method = method;
+    this.data = data || {};
+    this.callback = callback;
     this.read = {};
 
     switch(method) {
@@ -93,8 +96,6 @@ fa_chatbox.prototype.autologin = function(user) {
                     'onclick' : 'chat.disconect(\''+ _userdata.username +'\')',
                     'data-cookie' : 'true'
                 });
-            } else {
-                console.log('not logged');
             }
         } else {
             $('div#buttons').remove();
@@ -174,3 +175,15 @@ fa_chatbox.prototype.send = function() {
         self.readData();
     });
 };
+
+$(document).ready(function() {
+    var chat = new fa_chatbox();
+    chat.init();
+
+    $('input#msg_zone').keypress(function (e) {
+        if (e.which == 13) {
+            chat.send();
+            return false;
+        }
+    });
+});
