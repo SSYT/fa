@@ -60,7 +60,7 @@ fa_chatbox.prototype.refresh = function() {
 
 fa_chatbox.prototype.autologin = function(user) {
     var self = this;
-    for(var i = 0, j = faChat.read.users; i < j.length; i++) {
+    for(var i = 0, j = self.read.users; i < j.length; i++) {
         if(_userdata.session_logged_in == 1) {
             if(new RegExp(_userdata.username, 'g').test(j[i].username)) {
                 console.log('login to chatbox');
@@ -103,8 +103,9 @@ fa_chatbox.prototype.autologin = function(user) {
 };
 
 fa_chatbox.prototype.getStaffUser = function(id) {
+    var self = this;
     if(data !== null) {
-        for(var i = 0, j = faChat.read.users; i < j.length; i++) {
+        for(var i = 0, j = self.read.users; i < j.length; i++) {
             if(new RegExp(id, 'g').test(j[i].username)) {
                 var admin = (j[i].admin) ? 1 : 0;
                 return admin;
