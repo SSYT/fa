@@ -192,6 +192,6 @@ if(typeof faChat == "undefined") {
     var faChat = new fa_chatbox();
     $(function() {
         faChat.init();
-        faChat.auto_login(_userdata.username);
+        //faChat.auto_login(_userdata.username);
     });
 }
