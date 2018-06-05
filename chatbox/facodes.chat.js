@@ -58,7 +58,7 @@ fa_chatbox.prototype.refresh = function() {
 
 };
 
-fa_chatbox.prototype.autologin = function(user) {
+fa_chatbox.prototype.auto_login = function(user) {
     var self = this;
     for(var i = 0, j = self.read.users; i < j.length; i++) {
         if(_userdata.session_logged_in == 1) {
@@ -192,6 +192,6 @@ if(typeof faChat == "undefined") {
     var faChat = new fa_chatbox();
     $(function() {
         faChat.init();
-        faChat.autologin(_userdata.username);
+        faChat.auto_login(_userdata.username);
     });
 }
