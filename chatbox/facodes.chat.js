@@ -140,12 +140,12 @@ fa_chatbox.prototype.readData = function() {
                 $.each(JSON.parse(content).users, function(i, value) {
                     self.users[value.id] = value;
 
-					var username = 	"<span style='color:"+ value.color +"'>"+
+					var username = 	"<span style='color:"+ value.user_color +"'>"+
 						(value.admin ? "@ " : "") +
 						"<span class='chatbox-username chatbox-user-username' data-user='"+ value.id +"'>"+ value.username +"</span>"+
 					"</span>";
 
-					var list = value.status ? '.online-users' : '.away-users';
+					var list = (value.staus) ? '.online-users' : '.away-users';
 					$(list).append('<li>' + username + '</li>');
                 });
             }
