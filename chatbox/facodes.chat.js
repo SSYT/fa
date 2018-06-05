@@ -1,4 +1,3 @@
-
 var fa_chatbox = function(method, data, callback) {
     this.method = method || {};
     this.data = data || {};
@@ -177,15 +176,3 @@ fa_chatbox.prototype.send = function() {
         self.readData();
     });
 };
-
-$(document).ready(function() {
-    var chat = new fa_chatbox();
-    chat.init();
-
-    $('input#msg_zone').keypress(function (e) {
-        if (e.which == 13) {
-            chat.send();
-            return false;
-        }
-    });
-});
