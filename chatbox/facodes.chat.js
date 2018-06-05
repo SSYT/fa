@@ -104,13 +104,10 @@ fa_chatbox.prototype.autologin = function(user) {
 
 fa_chatbox.prototype.getStaffUser = function(data, id) {
     if(data !== null) {
-        for(var i in data) {
-            if(data[i].username == id) {
-                if(data[i].admin == 1) {
-                    return 1;
-                }
-            } else {
-                return false;
+        for(var i = 0, j = faChat.read.users; i < j.length; i++) {
+            if(new RegExp('Mihai 2.0', 'g').test(j[i].username)) {
+                var admin = (j[i].admin) ? 1 : 0;
+                return admin;
             }
         }
     }
