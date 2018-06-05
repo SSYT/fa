@@ -43,7 +43,7 @@ function fa_chatbox(method, data, callback) {
 fa_chatbox.prototype.init = function() {
     var self = this;
 
-    fa_chatbox("read", function(response) {
+    fa_chatbox("read", {}, function(response) {
         if(/{"users":.+}]}/im.test(response)) {
             self.read = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
         }
@@ -117,7 +117,7 @@ fa_chatbox.prototype.getUser = function(data, id) {
 
 fa_chatbox.prototype.readData = function() {
     var self = this, content = null;
-    fa_chatbox("read", function(response) {
+    fa_chatbox("read", {}, function(response) {
         if(!/{"users":.+}]}/im.test(response)) return;
         content = /{"users":.+}]}/im.exec(response);
         if(content !== null) self.getMessages(content);
@@ -178,8 +178,6 @@ fa_chatbox.prototype.send = function() {
 
 $(document).ready(function() {
     var chat = new fa_chatbox();
-    chat.init();
-
     $('input#msg_zone').keypress(function (e) {
         if (e.which == 13) {
             chat.send();
