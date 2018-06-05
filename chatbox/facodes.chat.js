@@ -49,41 +49,13 @@ fa_chatbox.prototype.init = function() {
             console.log(self.read);
         }
 
-        /*if(self.read.messages == null && self.read.users == null) {
-            var date = new Date();
-            var t = {"users": [{
-                id: 1,
-                user_color: '#E60C42',
-                admin: 1,
-                username: 'SSYT 2.0',
-                staus: 1
-            }], "messages": [{
-                id: 0,
-                user_color: '#E60C42',
-                admin: 1,
-                username: 'ChatBot',
-                date: date.getDay()+'/'+ date.getMonth() +'/'+date.getFullYear(),
-                dateTime: date.getHours()+':'+ date.getMinutes() +':'+date.getSeconds(),
-                content: 'Welcome to FACodes, you have installed fa chatbox by SSYT.'}]
-            };
-
-            console.log(readMSG);
-
-            fa_chatbox("addMsg", {
-                subject: "database_chatbox",
-                message: JSON.stringify(t),
-                edit_reason: "",
-                attach_sig: 0,
-                notify: 0,
-                post: 1
-            }, function() {
-                console.log('done');
-            });
-        }*/
-
         console.log('[SUCCESS] InitListening');
         self.readData();
     });
+};
+
+fa_chatbox.prototype.refresh = function() {
+
 };
 
 fa_chatbox.prototype.autologin = function(user) {
@@ -126,6 +98,18 @@ fa_chatbox.prototype.autologin = function(user) {
             }
         } else {
             $('div#buttons').remove();
+        }
+    }
+};
+
+fa_chatbox.prototype.getStaffUser = function(data, id) {
+    if(data !== null) {
+        for(var i in data) {
+            if(data[i].username == id) {
+                if(data[i].admin == 1) return 1;
+            } else {
+                return false;
+            }
         }
     }
 };
@@ -182,8 +166,8 @@ fa_chatbox.prototype.send = function() {
 
     self.read.messages.push({
         id: _userdata.user_id,
-        user_color: (self.getUser(self.read.users, _userdata.username) == 1) ? '#E60C42' : '#000',
-        admin: (self.getUser(self.read.users, _userdata.username) == 1) ? 1 : 0,
+        user_color: (self.getStaffUser(self.read.users, _userdata.username) == 1) ? '#E60C42' : '#000',
+        admin: (self.getStaffUser(self.read.users, _userdata.username) == 1) ? 1 : 0,
         username: _userdata.username,
         date: date.getDay()+'/'+ date.getMonth() +'/'+date.getFullYear(),
         dateTime: date.getHours()+':'+ date.getMinutes() +':'+date.getSeconds(),
