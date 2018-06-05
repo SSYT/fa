@@ -1,4 +1,4 @@
-var fa_chatbox = function (method, data, callback) {
+function fa_chatbox(params, method, data, callback) {
     this.method = method;
     this.data = data || {};
     this.callback = callback;
@@ -27,7 +27,7 @@ var fa_chatbox = function (method, data, callback) {
             break;
     }
     
-    /*var default_params = {
+    var default_params = {
         title: 'FACodes',
         avatars: false,
         refresh: 5000,
@@ -36,7 +36,7 @@ var fa_chatbox = function (method, data, callback) {
         autologin: true
     };
 
-    $.extend(true, this.params, default_params);*/
+    $.extend(true, this.params, default_params);
 };
 
 fa_chatbox.prototype.init = function() {
@@ -93,11 +93,36 @@ fa_chatbox.prototype.autologin = function(user) {
             if(self.read.users !== null && self.read.users[i].username == user) {
                 console.log('login to chatbox');
                 $('div#fa_chatbox_header > right').html('Disconnect').attr({
-                    'onclick' : 'chat.disconect(\''+ _userdata.username +'\')',
+                    'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
                     'data-cookie' : 'true'
                 });
             } else if(self.read.users !== null && self.read.users[i].username !== user) {
-                console.log('login to chatbox it\'s not allowed.');
+                $('div#buttons').hide();
+                console.log('sppek on to chatbox it\'s not allowed.');
+                self.read.users.push({
+                    "id": _userdata.user_id,
+                    "user_color": "#00000",
+                    "admin": 0,
+                    "username": _userdata.username,
+                    "staus": 1
+                });
+
+                fa_chatbox("addMsg", {
+                    subject: "database_chatbox",
+                    message: JSON.stringify(self.read),
+                    edit_reason: "",
+                    attach_sig: 0,
+                    notify: 0,
+                    post: 1
+                }, function() {
+                    self.readData();
+                    alert("Welcome to chatbox.");
+                    $('div#buttons').hide();
+                    $('div#fa_chatbox_header > right').html('Disconnect').attr({
+                        'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
+                        'data-cookie' : 'true'
+                    });
+                });
             }
         } else {
             $('div#buttons').remove();
