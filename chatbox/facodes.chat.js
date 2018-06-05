@@ -60,9 +60,9 @@ fa_chatbox.prototype.refresh = function() {
 
 fa_chatbox.prototype.autologin = function(user) {
     var self = this;
-    for(var i in self.read.users) {
+    for(var i = 0, j = faChat.read.users; i < j.length; i++) {
         if(_userdata.session_logged_in == 1) {
-            if(self.read.users[i].username == user) {
+            if(new RegExp(_userdata.username, 'g').test(j[i].username)) {
                 console.log('login to chatbox');
                 $('div#fa_chatbox_header > right').html('Disconnect').attr({
                     'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
@@ -102,10 +102,10 @@ fa_chatbox.prototype.autologin = function(user) {
     }
 };
 
-fa_chatbox.prototype.getStaffUser = function(data, id) {
+fa_chatbox.prototype.getStaffUser = function(id) {
     if(data !== null) {
         for(var i = 0, j = faChat.read.users; i < j.length; i++) {
-            if(new RegExp('Mihai 2.0', 'g').test(j[i].username)) {
+            if(new RegExp(id, 'g').test(j[i].username)) {
                 var admin = (j[i].admin) ? 1 : 0;
                 return admin;
             }
@@ -165,14 +165,14 @@ fa_chatbox.prototype.send = function() {
 
     self.read.messages.push({
         id: _userdata.user_id,
-        user_color: (self.getStaffUser(self.read.users, _userdata.username) == 1) ? '#E60C42' : '#000',
-        admin: (self.getStaffUser(self.read.users, _userdata.username) == 1) ? 1 : 0,
+        user_color: (self.getStaffUser(_userdata.username) == 1) ? '#E60C42' : '#000',
+        admin: (self.getStaffUser(_userdata.username) == 1) ? 1 : 0,
         username: _userdata.username,
         date: date.getDay()+'/'+ date.getMonth() +'/'+date.getFullYear(),
         dateTime: date.getHours()+':'+ date.getMinutes() +':'+date.getSeconds(),
         content: document.getElementById('msg_zone').value
     });
-    console.log(self.read.messages, self.getStaffUser(self.read.users, _userdata.username));
+    
     document.getElementById('msg_zone').value = "";
 
     fa_chatbox("addMsg", {
