@@ -62,13 +62,13 @@ fa_chatbox.prototype.autologin = function(user) {
     var self = this;
     for(var i in self.read.users) {
         if(_userdata.session_logged_in == 1) {
-            if(self.read.users !== null && self.read.users[i].username == user) {
+            if(self.read.users[i].username == user) {
                 console.log('login to chatbox');
                 $('div#fa_chatbox_header > right').html('Disconnect').attr({
                     'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
                     'data-cookie' : 'true'
                 });
-            } else if(self.read.users !== null && self.read.users[i].username !== user) {
+            } /*else if(self.read.users !== null && self.read.users[i].username !== user) {
                 $('div#buttons').hide();
                 console.log('sppek on to chatbox it\'s not allowed.');
                 self.read.users.push({
@@ -95,7 +95,7 @@ fa_chatbox.prototype.autologin = function(user) {
                         'data-cookie' : 'true'
                     });
                 });
-            }
+            }*/
         } else {
             $('div#buttons').remove();
         }
@@ -106,7 +106,9 @@ fa_chatbox.prototype.getStaffUser = function(data, id) {
     if(data !== null) {
         for(var i in data) {
             if(data[i].username == id) {
-                if(data[i].admin == 1) return 1;
+                if(data[i].admin == 1) {
+                    return 1;
+                }
             } else {
                 return false;
             }
@@ -173,7 +175,7 @@ fa_chatbox.prototype.send = function() {
         dateTime: date.getHours()+':'+ date.getMinutes() +':'+date.getSeconds(),
         content: document.getElementById('msg_zone').value
     });
-    console.log(self.read.messages);
+    console.log(self.read.messages, self.getStaffUser(self.read.users, _userdata.username));
     document.getElementById('msg_zone').value = "";
 
     fa_chatbox("addMsg", {
@@ -192,7 +194,6 @@ if(typeof faChat == "undefined") {
     var faChat = new fa_chatbox();
     $(function() {
         faChat.init();
-        console.log('try login');
         faChat.autologin(_userdata.username);
     });
 }
