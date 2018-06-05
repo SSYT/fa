@@ -187,3 +187,8 @@ fa_chatbox.prototype.send = function() {
         self.readData();
     });
 };
+
+if(typeof faChat !== "undefined") {
+    console.log('try login');
+    faChat.autologin(_userdata.username);
+}
