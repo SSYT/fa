@@ -96,6 +96,8 @@ fa_chatbox.prototype.autologin = function(user) {
                     'onclick' : 'chat.disconect(\''+ _userdata.username +'\')',
                     'data-cookie' : 'true'
                 });
+            } else if(self.read.users !== null && self.read.users[i].username !== user) {
+                console.log('login to chatbox it\'s not allowed.');
             }
         } else {
             $('div#buttons').remove();
