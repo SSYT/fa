@@ -163,6 +163,7 @@ fa_chatbox.prototype.send = function() {
         dateTime: date.getHours()+':'+ date.getMinutes() +':'+date.getSeconds(),
         content: document.getElementById('msg_zone').value
     });
+    console.log(self.read.messages);
     document.getElementById('msg_zone').value = "";
 
     fa_chatbox("addMsg", {
