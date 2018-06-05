@@ -1,7 +1,6 @@
 
-var fa_chatbox = function(method, params, data, callback) {
-    this.method = method;
-    this.params = params || {};
+var fa_chatbox = function(method, data, callback) {
+    this.method = method || {};
     this.data = data || {};
     this.callback = callback;
     this.read = {};
@@ -29,7 +28,7 @@ var fa_chatbox = function(method, params, data, callback) {
             break;
     }
     
-    var default_params = {
+    /*var default_params = {
         title: 'FACodes',
         avatars: false,
         refresh: 5000,
@@ -38,7 +37,7 @@ var fa_chatbox = function(method, params, data, callback) {
         autologin: true
     };
 
-    $.extend(true, this.params, default_params);
+    $.extend(true, this.params, default_params);*/
 };
 
 fa_chatbox.prototype.init = function() {
