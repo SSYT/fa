@@ -1,8 +1,9 @@
-function fa_chatbox(params, method, data, callback) {
+function fa_chatbox(method, data, callback) {
     this.method = method;
     this.data = data || {};
     this.callback = callback;
     this.read = {};
+    this.params = {};
 
     switch(method) {
         case "read":
