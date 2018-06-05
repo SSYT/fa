@@ -82,7 +82,6 @@ fa_chatbox.prototype.init = function() {
         }*/
 
         console.log('[SUCCESS] InitListening');
-        self.autologin(_userdata.username);
         self.readData();
     });
 };
