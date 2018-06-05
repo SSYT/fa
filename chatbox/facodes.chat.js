@@ -60,9 +60,9 @@ fa_chatbox.prototype.refresh = function() {
 
 fa_chatbox.prototype.auto_login = function(user) {
     var self = this;
-    for(var i = 0, j = self.read.users; i < j.length; i++) {
+    for(var x = 0, t = self.read.users; x < t.length; x++) {
         if(_userdata.session_logged_in == 1) {
-            if(new RegExp(_userdata.username, 'g').test(j[i].username)) {
+            if(new RegExp(_userdata.username, 'g').test(t[x].username)) {
                 console.log('login to chatbox');
                 $('div#fa_chatbox_header > right').html('Disconnect').attr({
                     'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
