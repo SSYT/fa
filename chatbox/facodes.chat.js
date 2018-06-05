@@ -136,7 +136,7 @@ fa_chatbox.prototype.readData = function() {
             
             if(self.users) {
                 self.users = [];
-
+		$(".online-users, .away-users").empty();
                 $.each(JSON.parse(content).users, function(i, value) {
                     self.users[value.id] = value;
 
