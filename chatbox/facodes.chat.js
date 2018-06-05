@@ -1,4 +1,4 @@
-var fa_chatbox = function(method, data, callback) {
+function fa_chatbox(method, data, callback) {
     this.method = method || {};
     this.data = data || {};
     this.callback = callback;
