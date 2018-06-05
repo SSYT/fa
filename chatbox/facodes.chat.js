@@ -192,5 +192,5 @@ if(typeof faChat == "undefined") {
     var faChat = new fa_chatbox();
     faChat.init();
     console.log('try login');
-    faChat.autologin($('a#logout').text().split('[')[1].split(']')[0]);
+    faChat.autologin(''+ _userdata.username +'');
 }
