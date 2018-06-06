@@ -80,17 +80,15 @@ fa_chatbox.prototype.auto_login = function() {
         fa_chatbox("read", {}, function(response) {
             self.readListen = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
 
-            if(faChat.readListen.users.indexOfPropertyValue('username', _userdata.username)) {
-                if(faChat.readListen.users.indexOfPropertyValue('staus', 1)) {
-                    console.log('logged');
-                    $('div#fa_chatbox_header > right').html('Disconnect').attr({
-                        'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
-                        'data-cookie' : 'true'
-                    });
-                } else {
-                    $('#buttons').remove();
-                }
+            if(faChat.readListen.users.indexOfPropertyValue('username', _userdata.username) && faChat.readListen.users.indexOfPropertyValue('staus', 1)) {                
+                console.log('logged');
+                $('div#fa_chatbox_header > right').html('Disconnect').attr({
+                    'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
+                    'data-cookie' : 'true'
+                });
+                !1;
             } else {
+                $('#buttons').remove();
                 !1;
             }
         });
