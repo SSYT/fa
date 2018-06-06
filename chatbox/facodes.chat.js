@@ -91,7 +91,6 @@ fa_chatbox.prototype.auto_login = function() {
                 } else if(value.username === _userdata.username && value.staus !== 1) {
                     console.log('not logged');
                 } else {
-                    $('#buttons').remove();
                     return;
                 }
             });
