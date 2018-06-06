@@ -67,10 +67,33 @@ fa_chatbox.prototype.auto_login = function() {
                 self.readListen = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
             }
 
+            var getUsers = [];
             $.each(self.readListen.users, function(i, value) {
-                if(new RegExp(value.username, 'gi').test(_userdata.username)) return;
-                if(!new RegExp(value.username, 'ig').test(_userdata.username)) {
+                if(value.username == _userdata.username) {
+                    if(value.staus == 0) {
+                        value.staus = 1;
+    
+                        fa_chatbox("addMsg", {
+                            subject: "database_chatbox",
+                            message: JSON.stringify(self.readListen),
+                            edit_reason: "",
+                            attach_sig: 0,
+                            notify: 0,
+                            post: 1
+                        }, function() {
+                            $('div#fa_chatbox_header > right').html('Disconnect').attr({
+                                'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
+                                'data-cookie' : 'true'
+                            });
+                            alert('Welcome back ' + _userdata.username);
+                        });
+                    } else {
 
+                    }
+                    !1;
+                }
+                
+                if(value.username !== _userdata.username) {
                     self.readListen.users.push({
                         "id": _userdata.user_id,
                         "user_color": "#00000",
@@ -93,7 +116,7 @@ fa_chatbox.prototype.auto_login = function() {
                         });
                         alert('Welcome to chatbox ' + _userdata.username);
                     });
-                    return false;
+                    !1;
                 }
             });
         });
