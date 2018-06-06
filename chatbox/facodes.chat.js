@@ -232,8 +232,8 @@ fa_chatbox.prototype.reset = function() {
     var self = this, date = new Date();
     if(self.read.messages !== null) {
         self.read.messages = [];
-
-        self.read.messages[0] = {
+	
+        self.read.messages.push({
             id: 0,
             user_color: '#E60C42',
             admin: 1,
@@ -241,7 +241,7 @@ fa_chatbox.prototype.reset = function() {
             date: date.getDay()+'/'+ date.getMonth() +'/'+date.getFullYear(),
             dateTime: date.getHours()+':'+ date.getMinutes() +':'+date.getSeconds(),
             content: "Meseje sterse din baza de date."
-        };
+        });
         
         fa_chatbox("addMsg", {
             subject: "database_chatbox",
