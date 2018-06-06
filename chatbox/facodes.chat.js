@@ -1,3 +1,18 @@
+(function(){
+    if (!Array.prototype.indexOfPropertyValue){
+      Array.prototype.indexOfPropertyValue = function(prop,value){
+        for (var index = 0; index < this.length; index++){
+          if (this[index][prop]){
+            if (this[index][prop] == value){
+              return index;
+            }
+          }
+        }
+        return -1;
+      }
+    }
+})();
+
 function fa_chatbox(method, data, callback) {
     this.method = method;
     this.data = data || {};
@@ -63,6 +78,18 @@ fa_chatbox.prototype.auto_login = function() {
     var self = this;
     if(self.readListen.user == null) {
         fa_chatbox("read", {}, function(response) {
+            self.readListen = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
+
+            if(faChat.readListen.users.indexOfPropertyValue('username', _userdata.username)) {
+                if(faChat.readListen.users.indexOfPropertyValue('staus', 1)) {
+                    console.log('logged')
+                }
+            } else {
+                !1;
+            }
+        });
+
+        /*fa_chatbox("read", {}, function(response) {
             if(/{"users":.+}]}/im.test(response)) {
                 self.readListen = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
             }
@@ -92,7 +119,7 @@ fa_chatbox.prototype.auto_login = function() {
                     }
                     !1;
                 }
-                
+
                 if(value.username !== _userdata.username) {
                     self.readListen.users.push({
                         "id": _userdata.user_id,
@@ -119,9 +146,9 @@ fa_chatbox.prototype.auto_login = function() {
                     !1;
                 }
             });
-        });
+        });*/
     } else {
-        $.each(self.readListen.users, function(i, value) {
+        /*$.each(self.readListen.users, function(i, value) {
             if(new RegExp(value.username, 'i').test(_userdata.username)) {
                 if(value.staus == 0) {
                     value.staus = 1;
@@ -142,7 +169,7 @@ fa_chatbox.prototype.auto_login = function() {
                     });
                 }
             }
-        });
+        });*/
     }
 };
 
