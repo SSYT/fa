@@ -5,6 +5,10 @@ function fa_chatbox(method, data, callback) {
     this.read = {};
     this.params = {};
     this.users = [];
+    this.BBCodeparse = {
+        html: ["<strong>$1</strong>", "<em>$1</em>", "<span style="">$1</span>"],
+        bbcode: ["[b](.*?)[/b]", "[i](.*?)[/i]", "[u](.*?)[/u]"]
+    };
 
     switch(method) {
         case "read":
@@ -103,6 +107,53 @@ fa_chatbox.prototype.auto_login = function(user) {
     }
 };
 
+fa_chatbox.prototype.format = function(callback) {
+
+};
+
+fa_chatbox.prototype.checkUsers = function(user) {
+    var self = this, onlineUsers = [];
+    if(self.read.users == null) {
+        fa_chatbox("read", {}, function(response) {
+            if(/{"users":.+}]}/im.test(response)) {
+                self.read = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
+            }
+
+            $.ajax({
+                url: '/viewonline',
+                cache: false,
+                type: "get",
+                dataType: "text",
+                success: function(response) {
+                    $.each($('.forumbg table.table1 tbody tr:has("a[href*=\'/u\']")', response), function(y, index) {
+                        onlineUsers[y] = $('td:has("a[href*=\'/u\']")', index).text();
+                    });
+
+                    $.each(self.read.users, function(i, value) {
+                        if(onlineUsers.indexOf(value.username) === -1) {
+                            self.updateUser(self.read, value.username, i);
+                        }
+                    });
+                }
+            });
+        });
+    }
+};
+
+fa_chatbox.prototype.updateUser(data, user, index) {
+    data.users[index].staus = 0;
+    fa_chatbox("addMsg", {
+        subject: "database_chatbox",
+        message: JSON.stringify(data),
+        edit_reason: "",
+        attach_sig: 0,
+        notify: 0,
+        post: 1
+    }, function() {
+        console.log(user + ' has been disconected');
+    });
+};
+
 fa_chatbox.prototype.getStaffUser = function(id) {
     var self = this;
     if(data !== null) {
@@ -136,7 +187,7 @@ fa_chatbox.prototype.readData = function() {
             
             if(self.users) {
                 self.users = [];
-		$(".online-users, .away-users").empty();
+		        $(".online-users, .away-users").empty();
                 $.each(JSON.parse(content).users, function(i, value) {
                     self.users[value.id] = value;
 
@@ -212,6 +263,11 @@ if(typeof faChat == "undefined") {
     var faChat = new fa_chatbox();
     $(function() {
         faChat.init();
+        faChat.checkUsers();
         //faChat.auto_login(_userdata.username);
+
+        setInterval(function() {
+            faChat.checkUsers();
+        }, 5 * 60 * 1000);
     });
 }
