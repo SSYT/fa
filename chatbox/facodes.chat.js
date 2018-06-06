@@ -75,22 +75,22 @@ fa_chatbox.prototype.refresh = function() {
 };
 
 fa_chatbox.prototype.auto_login = function() {
-    var self = this;
+    var self = this, usersChat = {};
     if(self.readListen.user == null) {
         fa_chatbox("read", {}, function(response) {
-            self.readListen = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
+            usersChat = JSON.parse(/{"users":.+}]}/im.exec(response)[0]).users;
 
-            if(faChat.readListen.users.indexOfPropertyValue('username', _userdata.username) && faChat.readListen.users.indexOfPropertyValue('staus', 1)) {                
-                console.log('logged');
-                $('div#fa_chatbox_header > right').html('Disconnect').attr({
-                    'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
-                    'data-cookie' : 'true'
-                });
-                !1;
-            } else {
-                $('#buttons').remove();
-                !1;
-            }
+            $.each(usersChat, function(i, value) {
+                if(value.username === _userdata.username && value.staus !== 0) {
+                    console.log('logged');
+                } else if(value.username === _userdata.username && value.staus !== 1) {
+                    console.log(' not logged');
+                    $('#buttons').hide();
+                } else {
+                    console.log('not find');
+                    return;
+                }
+            });
         });
 
         /*fa_chatbox("read", {}, function(response) {
@@ -150,29 +150,6 @@ fa_chatbox.prototype.auto_login = function() {
                     !1;
                 }
             });
-        });*/
-    } else {
-        /*$.each(self.readListen.users, function(i, value) {
-            if(new RegExp(value.username, 'i').test(_userdata.username)) {
-                if(value.staus == 0) {
-                    value.staus = 1;
-
-                    fa_chatbox("addMsg", {
-                        subject: "database_chatbox",
-                        message: JSON.stringify(self.readListen),
-                        edit_reason: "",
-                        attach_sig: 0,
-                        notify: 0,
-                        post: 1
-                    }, function() {
-                        $('div#fa_chatbox_header > right').html('Disconnect').attr({
-                            'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
-                            'data-cookie' : 'true'
-                        });
-                        alert('Welcome back ' + _userdata.username);
-                    });
-                }
-            }
         });*/
     }
 };
