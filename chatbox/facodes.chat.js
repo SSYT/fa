@@ -2,7 +2,7 @@ function fa_chatbox(method, data, callback) {
     this.method = method;
     this.data = data || {};
     this.callback = callback;
-    this.read = {};
+    this.readListen = {};
     this.params = {};
     this.users = [];
 
@@ -46,8 +46,8 @@ fa_chatbox.prototype.init = function() {
 
     fa_chatbox("read", {}, function(response) {
         if(/{"users":.+}]}/im.test(response)) {
-            self.read = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
-            console.log(self.read);
+            self.readListen = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
+            console.log(self.readListen);
         }
 
         console.log('[SUCCESS] InitListening');
@@ -59,47 +59,65 @@ fa_chatbox.prototype.refresh = function() {
 
 };
 
-fa_chatbox.prototype.auto_login = function(user) {
+fa_chatbox.prototype.auto_login = function() {
     var self = this;
-    for(var x = 0, t = self.read.users; x < t.length; x++) {
-        if(_userdata.session_logged_in == 1) {
-            if(new RegExp(_userdata.username, 'g').test(t[x].username)) {
-                console.log('login to chatbox');
-                $('div#fa_chatbox_header > right').html('Disconnect').attr({
-                    'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
-                    'data-cookie' : 'true'
-                });
-            } /*else if(self.read.users !== null && self.read.users[i].username !== user) {
-                $('div#buttons').hide();
-                console.log('sppek on to chatbox it\'s not allowed.');
-                self.read.users.push({
-                    "id": _userdata.user_id,
-                    "user_color": "#00000",
-                    "admin": 0,
-                    "username": _userdata.username,
-                    "staus": 1
-                });
+    if(self.readListen.user == null) {
+        fa_chatbox("read", {}, function(response) {
+            if(/{"users":.+}]}/im.test(response)) {
+                self.readListen = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
+            }
 
-                fa_chatbox("addMsg", {
-                    subject: "database_chatbox",
-                    message: JSON.stringify(self.read),
-                    edit_reason: "",
-                    attach_sig: 0,
-                    notify: 0,
-                    post: 1
-                }, function() {
-                    self.readData();
-                    alert("Welcome to chatbox.");
-                    $('div#buttons').hide();
-                    $('div#fa_chatbox_header > right').html('Disconnect').attr({
-                        'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
-                        'data-cookie' : 'true'
+            $.each(self.readListen.users, function(i, value) {
+                if(!new RegExp(value.username, 'i').test(_userdata.username)) {
+
+                    self.readListen.users.push({
+                        "id": _userdata.user_id,
+                        "user_color": "#00000",
+                        "admin": 0,
+                        "username": _userdata.username,
+                        "staus": 1
                     });
-                });
-            }*/
-        } else {
-            $('div#buttons').remove();
-        }
+
+                    fa_chatbox("addMsg", {
+                        subject: "database_chatbox",
+                        message: JSON.stringify(self.readListen),
+                        edit_reason: "",
+                        attach_sig: 0,
+                        notify: 0,
+                        post: 1
+                    }, function() {
+                        $('div#fa_chatbox_header > right').html('Disconnect').attr({
+                            'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
+                            'data-cookie' : 'true'
+                        });
+                        alert('Welcome back ' + _userdata.username);
+                    });
+                }
+            });
+        });
+    } else {
+        $.each(self.readListen.users, function(i, value) {
+            if(new RegExp(value.username, 'i').test(_userdata.username)) {
+                if(value.staus == 0) {
+                    value.staus = 1;
+
+                    fa_chatbox("addMsg", {
+                        subject: "database_chatbox",
+                        message: JSON.stringify(self.readListen),
+                        edit_reason: "",
+                        attach_sig: 0,
+                        notify: 0,
+                        post: 1
+                    }, function() {
+                        $('div#fa_chatbox_header > right').html('Disconnect').attr({
+                            'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
+                            'data-cookie' : 'true'
+                        });
+                        alert('Welcome back ' + _userdata.username);
+                    });
+                }
+            }
+        });
     }
 };
 
@@ -109,13 +127,13 @@ fa_chatbox.prototype.format = function(callback) {
 
 fa_chatbox.prototype.checkUsers = function() {
     var self = this, onlineUsers = [];
-    if(self.read.users == null) {
+    if(self.readListen.users == null) {
         fa_chatbox("read", {}, function(response) {
             if(/{"users":.+}]}/im.test(response)) {
-                self.read = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
+                self.readListen = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
             }
 
-            if(self.read.users == null || self.read == null) return;
+            if(self.readListen.users == null || self.readListen == null) return;
             $.ajax({
                 url: '/viewonline',
                 cache: false,
@@ -126,9 +144,9 @@ fa_chatbox.prototype.checkUsers = function() {
                         onlineUsers[y] = $('td:has("a[href*=\'/u\']")', index).text();
                     });
 
-                    $.each(self.read.users, function(i, value) {
+                    $.each(self.readListen.users, function(i, value) {
                         if(onlineUsers.indexOf(value.username) === -1) {
-                            if(value.staus == 1) self.updateUser(self.read, value.username, i);
+                            if(value.staus == 1) self.updateUser(self.readListen, value.username, i);
                         }
                     });
                 }
@@ -154,7 +172,7 @@ fa_chatbox.prototype.updateUser = function(data, user, index) {
 fa_chatbox.prototype.getStaffUser = function(id) {
     var self = this;
     if(data !== null) {
-        for(var i = 0, j = self.read.users; i < j.length; i++) {
+        for(var i = 0, j = self.readListen.users; i < j.length; i++) {
             if(new RegExp(id, 'g').test(j[i].username)) {
                 var admin = (j[i].admin) ? 1 : 0;
                 return admin;
@@ -230,10 +248,10 @@ fa_chatbox.prototype.getMessages = function(content) {
 
 fa_chatbox.prototype.reset = function() {
     var self = this, date = new Date();
-    if(self.read.messages !== null) {
-        self.read.messages = [];
-	
-        self.read.messages.push({
+    if(self.readListen.messages !== null) {
+        self.readListen.messages = [];
+
+        self.readListen.messages.push({
             id: 0,
             user_color: '#E60C42',
             admin: 1,
@@ -245,7 +263,7 @@ fa_chatbox.prototype.reset = function() {
         
         fa_chatbox("addMsg", {
             subject: "database_chatbox",
-            message: JSON.stringify(self.read),
+            message: JSON.stringify(self.readListen),
             edit_reason: "",
             attach_sig: 0,
             notify: 0,
@@ -260,7 +278,7 @@ fa_chatbox.prototype.send = function() {
     var self = this, date = new Date();
     if(document.getElementById('msg_zone').value == "") return;
 
-    self.read.messages.push({
+    self.readListen.messages.push({
         id: _userdata.user_id,
         user_color: (self.getStaffUser(_userdata.username) == 1) ? '#E60C42' : '#000',
         admin: (self.getStaffUser(_userdata.username) == 1) ? 1 : 0,
@@ -274,7 +292,7 @@ fa_chatbox.prototype.send = function() {
 
     fa_chatbox("addMsg", {
         subject: "database_chatbox",
-        message: JSON.stringify(self.read),
+        message: JSON.stringify(self.readListen),
         edit_reason: "",
         attach_sig: 0,
         notify: 0,
