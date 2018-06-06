@@ -82,12 +82,17 @@ fa_chatbox.prototype.auto_login = function() {
 
             $.each(usersChat, function(i, value) {
                 if(value.username === _userdata.username && value.staus !== 0) {
-                    console.log('logged');
+                    $('div#fa_chatbox_header > right').html('Disconnect').attr({
+                        'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
+                        'data-cookie' : 'true'
+                    });
+                    alert('Welcome back ' + _userdata.username);
                 } else if(value.username === _userdata.username && value.staus !== 1) {
                     console.log(' not logged');
                     $('#buttons').hide();
                 } else {
                     console.log('not find');
+                    $('#buttons').remove();
                     return;
                 }
             });
