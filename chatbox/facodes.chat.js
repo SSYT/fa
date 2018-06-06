@@ -5,10 +5,6 @@ function fa_chatbox(method, data, callback) {
     this.read = {};
     this.params = {};
     this.users = [];
-    this.BBCodeparse = {
-        html: ["<strong>$1</strong>", "<em>$1</em>", "<span style="">$1</span>"],
-        bbcode: ["[b](.*?)[/b]", "[i](.*?)[/i]", "[u](.*?)[/u]"]
-    };
 
     switch(method) {
         case "read":
