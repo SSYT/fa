@@ -46,8 +46,8 @@ fa_chatbox.prototype.init = function() {
 
     fa_chatbox("read", {}, function(response) {
         if(/{"users":.+}]}/im.test(response)) {
-            self.read = JSON.parse(/{"users":.+}]}/ig.exec(response)[0]);
-            console.log('[SUCCESS]' + self.read);
+            self.read = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
+            console.log(self.read);
         }
 
         console.log('[SUCCESS] InitListening');
@@ -233,6 +233,16 @@ fa_chatbox.prototype.reset = function() {
     if(self.read.messages !== null) {
         self.read.messages = [];
 
+        self.read.messages[0] = {
+            id: 0,
+            user_color: '#E60C42',
+            admin: 1,
+            username: 'ChatBot',
+            date: date.getDay()+'/'+ date.getMonth() +'/'+date.getFullYear(),
+            dateTime: date.getHours()+':'+ date.getMinutes() +':'+date.getSeconds(),
+            content: "Meseje sterse din baza de date."
+        };
+        
         fa_chatbox("addMsg", {
             subject: "database_chatbox",
             message: JSON.stringify(self.read),
