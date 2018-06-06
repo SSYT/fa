@@ -82,7 +82,13 @@ fa_chatbox.prototype.auto_login = function() {
 
             if(faChat.readListen.users.indexOfPropertyValue('username', _userdata.username)) {
                 if(faChat.readListen.users.indexOfPropertyValue('staus', 1)) {
-                    console.log('logged')
+                    console.log('logged');
+                    $('div#fa_chatbox_header > right').html('Disconnect').attr({
+                        'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
+                        'data-cookie' : 'true'
+                    });
+                } else {
+                    $('#buttons').remove();
                 }
             } else {
                 !1;
