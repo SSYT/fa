@@ -68,7 +68,8 @@ fa_chatbox.prototype.auto_login = function() {
             }
 
             $.each(self.readListen.users, function(i, value) {
-                if(!new RegExp(value.username, 'i').test(_userdata.username)) {
+                if(new RegExp(value.username, 'gi').test(_userdata.username)) return;
+                if(!new RegExp(value.username, 'ig').test(_userdata.username)) {
 
                     self.readListen.users.push({
                         "id": _userdata.user_id,
