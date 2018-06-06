@@ -46,8 +46,8 @@ fa_chatbox.prototype.init = function() {
 
     fa_chatbox("read", {}, function(response) {
         if(/{"users":.+}]}/im.test(response)) {
-            self.read = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
-            console.log(self.read);
+            self.read = JSON.parse(/{"users":.+}]}/ig.exec(response)[0]);
+            console.log('[SUCCESS]' + self.read);
         }
 
         console.log('[SUCCESS] InitListening');
