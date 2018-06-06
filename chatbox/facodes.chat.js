@@ -127,7 +127,7 @@ fa_chatbox.prototype.checkUsers = function() {
 
                     $.each(self.read.users, function(i, value) {
                         if(onlineUsers.indexOf(value.username) === -1) {
-                            self.updateUser(self.read, value.username, i);
+                            if(value.staus == 1) self.updateUser(self.read, value.username, i);
                         }
                     });
                 }
@@ -224,6 +224,24 @@ fa_chatbox.prototype.getMessages = function(content) {
         });
         document.getElementById('shouts').innerHTML = html.replace(/null/i, "");
         $("#shouts")[0].scrollTop = $("#shouts").prop('scrollHeight') * 2;
+    }
+};
+
+fa_chatbox.prototype.reset = function() {
+    var self = this;
+    if(self.read.messages !== null) {
+        self.read.messages = [];
+
+        fa_chatbox("addMsg", {
+            subject: "database_chatbox",
+            message: JSON.stringify(self.read),
+            edit_reason: "",
+            attach_sig: 0,
+            notify: 0,
+            post: 1
+        }, function() {
+            self.readData();
+        });
     }
 };
 
