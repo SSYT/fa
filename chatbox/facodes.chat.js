@@ -107,7 +107,7 @@ fa_chatbox.prototype.format = function(callback) {
 
 };
 
-fa_chatbox.prototype.checkUsers = function(user) {
+fa_chatbox.prototype.checkUsers = function() {
     var self = this, onlineUsers = [];
     if(self.read.users == null) {
         fa_chatbox("read", {}, function(response) {
@@ -136,7 +136,7 @@ fa_chatbox.prototype.checkUsers = function(user) {
     }
 };
 
-fa_chatbox.prototype.updateUser(data, user, index) {
+fa_chatbox.prototype.updateUser = function(data, user, index) {
     data.users[index].staus = 0;
     fa_chatbox("addMsg", {
         subject: "database_chatbox",
