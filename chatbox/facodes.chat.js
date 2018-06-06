@@ -115,6 +115,7 @@ fa_chatbox.prototype.checkUsers = function() {
                 self.read = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
             }
 
+            if(self.read.users == null || self.read == null) return;
             $.ajax({
                 url: '/viewonline',
                 cache: false,
