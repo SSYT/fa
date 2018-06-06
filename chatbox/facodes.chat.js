@@ -90,8 +90,9 @@ fa_chatbox.prototype.auto_login = function() {
                             'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
                             'data-cookie' : 'true'
                         });
-                        alert('Welcome back ' + _userdata.username);
+                        alert('Welcome to chatbox ' + _userdata.username);
                     });
+                    return false;
                 }
             });
         });
