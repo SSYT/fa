@@ -229,7 +229,7 @@ fa_chatbox.prototype.getMessages = function(content) {
 };
 
 fa_chatbox.prototype.reset = function() {
-    var self = this;
+    var self = this, date = new Date();
     if(self.read.messages !== null) {
         self.read.messages = [];
 
