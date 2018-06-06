@@ -86,12 +86,11 @@ fa_chatbox.prototype.auto_login = function() {
                         'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
                         'data-cookie' : 'true'
                     });
-                    alert('Welcome back ' + _userdata.username);
+                    $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
+                    alert('Welcome back ' + value.username);
                 } else if(value.username === _userdata.username && value.staus !== 1) {
-                    console.log(' not logged');
-                    $('#buttons').hide();
+                    console.log('not logged');
                 } else {
-                    console.log('not find');
                     $('#buttons').remove();
                     return;
                 }
