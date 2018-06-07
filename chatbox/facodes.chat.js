@@ -80,23 +80,25 @@ fa_chatbox.prototype.auto_login = function() {
         fa_chatbox("read", {}, function(response) {
             usersChat = JSON.parse(/{"users":.+}]}/im.exec(response)[0]).users;
 
-            var checkUsers = [];
+            var checkUsers = [], checkStatus = [];
             for (var i = usersChat.length - 1; i >= 0; i--) {
                 checkUsers[usersChat[i].id] = usersChat[i].username;
+                checkStatus[usersChat[i].id] = usersChat[i].staus;
             }
             
             if(checkUsers.indexOf(_userdata.username) !== -1) {
-                if(checkUsers[checkUsers.indexOf(_userdata.username)].staus == 1) {
+                var index = checkUsers.indexOf(_userdata.username);
+                if(checkStatus[index] == 1) {
                     $('div#fa_chatbox_header > right').html('Disconnect').attr({
                         'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
                         'data-cookie' : 'true'
                     });
                     $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
                     // alert('Welcome back ' + _userdata.username);
-                    console.log('User Status: ' + checkUsers[checkUsers.indexOf(_userdata.username)].staus);
+                    console.log('User Status: ' + checkStatus[index]);
                 } else {
                     console.log('not logged');
-                    console.log('User Status: ' + checkUsers[checkUsers.indexOf(_userdata.username)].staus);
+                    console.log('User Status: ' + checkStatus[index]);
                 }
             } else {
                 console.log('users is not in list');
