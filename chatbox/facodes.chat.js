@@ -97,6 +97,8 @@ fa_chatbox.prototype.auto_login = function() {
                     });
                     
                     $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
+                    $('input#msg_zone').keypress(function (e) {if (e.which == 13) {faChat.send();return false}});
+                    if(_userdata.user_level == 1) $('#buttons').append('<input onclick="faChat.reset(); return false;" style="margin-left: 10px;" value="Reset" type="submit" />');
                     alert('Welcome back ' + checkUsers[index]);
                 } else {
                     usersChat[index].staus = 1;
@@ -114,6 +116,8 @@ fa_chatbox.prototype.auto_login = function() {
                         });
 
                         $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
+                        $('input#msg_zone').keypress(function (e) {if (e.which == 13) {faChat.send();return false}});
+                        if(_userdata.user_level == 1) $('#buttons').append('<input onclick="faChat.reset(); return false;" style="margin-left: 10px;" value="Reset" type="submit" />');
                         alert('Welcome back to chat.\n' + checkUsers[index]);
                     });
                     return false;
