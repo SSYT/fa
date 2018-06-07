@@ -75,7 +75,7 @@ fa_chatbox.prototype.refresh = function() {
 };
 
 fa_chatbox.prototype.auto_login = function() {
-    var self = this, usersChat = {};
+    var self = this;
     if(self.readListen.user == null) {
         fa_chatbox("read", {}, function(response) {
             self.readListen = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
