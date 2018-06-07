@@ -123,7 +123,33 @@ fa_chatbox.prototype.auto_login = function() {
                     return false;
                 }
             } else {
-                console.log('users is not in list');
+
+                usersChat.push({
+                    "id":_userdata.user_id,
+                    "user_color":"#00000",
+                    "admin":0,
+                    "username":_userdata.username,
+                    "staus":1
+                });
+
+                fa_chatbox("addMsg", {
+                    subject: "database_chatbox",
+                    message: JSON.stringify(self.readListen),
+                    edit_reason: "",
+                    attach_sig: 0,
+                    notify: 0,
+                    post: 1
+                }, function() {
+                    $('div#fa_chatbox_header > right').html('Disconnect').attr({
+                        'onclick' : 'faChat.disconect(\''+ checkUsers[index] +'\')',
+                        'data-cookie' : 'true'
+                    });
+
+                    $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
+                    $('input#msg_zone').keypress(function (e) {if (e.which == 13) {faChat.send();return false}});
+                    if(_userdata.user_level == 1) $('#buttons').append('<input onclick="faChat.reset(); return false;" style="margin-left: 10px;" value="Reset" type="submit" />');
+                    alert('Welcome to chat.\n' + checkUsers[index]);
+                });
             }
         });
     }
