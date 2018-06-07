@@ -86,7 +86,7 @@ fa_chatbox.prototype.auto_login = function() {
             }
             
             if(checkUsers.indexOf(_userdata.username) !== -1) {
-                if(users[i].staus !== 0) {
+                if(users[_userdata.user_id].staus !== 0) {
                     $('div#fa_chatbox_header > right').html('Disconnect').attr({
                         'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
                         'data-cookie' : 'true'
