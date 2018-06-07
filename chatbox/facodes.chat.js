@@ -92,11 +92,11 @@ fa_chatbox.prototype.auto_login = function() {
                 var index = checkUsers.indexOf(_userdata.username);
                 if(checkStatus[index] == 1) {
                     $('div#fa_chatbox_header > right').html('Disconnect').attr({
-                        'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
+                        'onclick' : 'faChat.disconect(\''+ checkUsers[index] +'\')',
                         'data-cookie' : 'true'
                     });
                     $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
-                    alert('Welcome back ' + _userdata.username);
+                    alert('Welcome back ' + checkUsers[index]);
                 } else {
                     usersChat[index].staus = 1;
                     fa_chatbox("addMsg", {
@@ -108,75 +108,17 @@ fa_chatbox.prototype.auto_login = function() {
                         post: 1
                     }, function() {
                         $('div#fa_chatbox_header > right').html('Disconnect').attr({
-                            'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
+                            'onclick' : 'faChat.disconect(\''+ checkUsers[index] +'\')',
                             'data-cookie' : 'true'
                         });
-                        alert('Welcome back to chat.\n' + _userdata.username);
+                        $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
+                        alert('Welcome back to chat.\n' + checkUsers[index]);
                     });
                 }
             } else {
                 console.log('users is not in list');
             }
         });
-
-        /*fa_chatbox("read", {}, function(response) {
-            if(/{"users":.+}]}/im.test(response)) {
-                self.readListen = JSON.parse(/{"users":.+}]}/im.exec(response)[0]);
-            }
-
-            var getUsers = [];
-            $.each(self.readListen.users, function(i, value) {
-                if(value.username == _userdata.username) {
-                    if(value.staus == 0) {
-                        value.staus = 1;
-    
-                        fa_chatbox("addMsg", {
-                            subject: "database_chatbox",
-                            message: JSON.stringify(self.readListen),
-                            edit_reason: "",
-                            attach_sig: 0,
-                            notify: 0,
-                            post: 1
-                        }, function() {
-                            $('div#fa_chatbox_header > right').html('Disconnect').attr({
-                                'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
-                                'data-cookie' : 'true'
-                            });
-                            alert('Welcome back ' + _userdata.username);
-                        });
-                    } else {
-
-                    }
-                    !1;
-                }
-
-                if(value.username !== _userdata.username) {
-                    self.readListen.users.push({
-                        "id": _userdata.user_id,
-                        "user_color": "#00000",
-                        "admin": 0,
-                        "username": _userdata.username,
-                        "staus": 1
-                    });
-
-                    fa_chatbox("addMsg", {
-                        subject: "database_chatbox",
-                        message: JSON.stringify(self.readListen),
-                        edit_reason: "",
-                        attach_sig: 0,
-                        notify: 0,
-                        post: 1
-                    }, function() {
-                        $('div#fa_chatbox_header > right').html('Disconnect').attr({
-                            'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
-                            'data-cookie' : 'true'
-                        });
-                        alert('Welcome to chatbox ' + _userdata.username);
-                    });
-                    !1;
-                }
-            });
-        });*/
     }
 };
 
