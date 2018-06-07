@@ -85,14 +85,14 @@ fa_chatbox.prototype.auto_login = function() {
                 checkUsers[usersChat[i].id] = usersChat[i].username;
             }
             
-            if(checkUsers.indexOf(new RegExp(_userdata.username, 'g')) !== -1) {
+            if(checkUsers.indexOf(_userdata.username) !== -1) {
                 if(users[i].staus !== 0) {
                     $('div#fa_chatbox_header > right').html('Disconnect').attr({
                         'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
                         'data-cookie' : 'true'
                     });
                     $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
-                    alert('Welcome back ' + value.username);
+                    alert('Welcome back ' + _userdata.username);
                 } else {
                     console.log('not logged');
                 }
