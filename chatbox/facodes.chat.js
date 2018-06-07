@@ -86,39 +86,40 @@ fa_chatbox.prototype.auto_login = function() {
             for (var i = usersChat.length - 1; i >= 0; i--) {
                 checkUsers[usersChat[i].id] = usersChat[i].username;
                 checkStatus[usersChat[i].id] = usersChat[i].staus;
+            }
 
-                if(checkUsers.indexOf(_userdata.username) !== -1) {
-                    var index = checkUsers.indexOf(_userdata.username);
-                    if(checkStatus[index] == 1) {
+            if(checkUsers.indexOf(_userdata.username) !== -1) {
+                var index = checkUsers.indexOf(_userdata.username);
+                if(checkStatus[index] == 1) {
+                    $('div#fa_chatbox_header > right').html('Disconnect').attr({
+                        'onclick' : 'faChat.disconect(\''+ checkUsers[index] +'\')',
+                        'data-cookie' : 'true'
+                    });
+                    
+                    $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
+                    alert('Welcome back ' + checkUsers[index]);
+                } else {
+                    usersChat[index].staus = 1;
+                    fa_chatbox("addMsg", {
+                        subject: "database_chatbox",
+                        message: JSON.stringify(self.readListen),
+                        edit_reason: "",
+                        attach_sig: 0,
+                        notify: 0,
+                        post: 1
+                    }, function() {
                         $('div#fa_chatbox_header > right').html('Disconnect').attr({
                             'onclick' : 'faChat.disconect(\''+ checkUsers[index] +'\')',
                             'data-cookie' : 'true'
                         });
-                        
-                        $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
-                        alert('Welcome back ' + checkUsers[index]);
-                    } else {
-                        usersChat[index].staus = 1;
-                        fa_chatbox("addMsg", {
-                            subject: "database_chatbox",
-                            message: JSON.stringify(self.readListen),
-                            edit_reason: "",
-                            attach_sig: 0,
-                            notify: 0,
-                            post: 1
-                        }, function() {
-                            $('div#fa_chatbox_header > right').html('Disconnect').attr({
-                                'onclick' : 'faChat.disconect(\''+ checkUsers[index] +'\')',
-                                'data-cookie' : 'true'
-                            });
 
-                            $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
-                            alert('Welcome back to chat.\n' + checkUsers[index]);
-                        });
-                    }
-                } else {
-                    console.log('users is not in list');
+                        $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
+                        alert('Welcome back to chat.\n' + checkUsers[index]);
+                    });
+                    return false;
                 }
+            } else {
+                console.log('users is not in list');
             }
         });
     }
