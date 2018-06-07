@@ -86,17 +86,17 @@ fa_chatbox.prototype.auto_login = function() {
             }
             
             if(checkUsers.indexOf(_userdata.username) !== -1) {
-                if(checkUsers[_userdata.user_id].staus == 1) {
+                if(checkUsers[checkUsers.indexOf(_userdata.username)].staus == 1) {
                     $('div#fa_chatbox_header > right').html('Disconnect').attr({
                         'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
                         'data-cookie' : 'true'
                     });
                     $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
                     // alert('Welcome back ' + _userdata.username);
-                    console.log(checkUsers[_userdata.user_id].staus);
+                    console.log('User Status: ' + checkUsers[checkUsers.indexOf(_userdata.username)].staus);
                 } else {
                     console.log('not logged');
-                    console.log(checkUsers[_userdata.user_id].staus);
+                    console.log('User Status: ' + checkUsers[checkUsers.indexOf(_userdata.username)].staus);
                 }
             } else {
                 console.log('users is not in list');
