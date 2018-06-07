@@ -80,20 +80,25 @@ fa_chatbox.prototype.auto_login = function() {
         fa_chatbox("read", {}, function(response) {
             usersChat = JSON.parse(/{"users":.+}]}/im.exec(response)[0]).users;
 
-            $.each(usersChat, function(i, value) {
-                if(value.username === _userdata.username && value.staus !== 0) {
+            var checkUsers = [];
+            for (var i = usersChat.length - 1; i >= 0; i--) {
+                checkUsers[usersChat[i].id] = usersChat[i].username;
+            }
+            
+            if(checkUsers.indexOf(new RegExp(_userdata.username, 'g')) !== -1) {
+                if(users[i].staus !== 0) {
                     $('div#fa_chatbox_header > right').html('Disconnect').attr({
                         'onclick' : 'faChat.disconect(\''+ _userdata.username +'\')',
                         'data-cookie' : 'true'
                     });
                     $('#fa_chatbox').append('<div id="buttons"><input name="message" id="msg_zone" type="text" /> <input onclick="faChat.send(); return false;" value="Trimite" type="submit" /></div>');
                     alert('Welcome back ' + value.username);
-                } else if(value.username === _userdata.username && value.staus !== 1) {
-                    console.log('not logged');
                 } else {
-                    return;
+                    console.log('not logged');
                 }
-            });
+            } else {
+                console.log('users is not in list');
+            }
         });
 
         /*fa_chatbox("read", {}, function(response) {
